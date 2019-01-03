@@ -4,8 +4,7 @@
   "description": "",
   "main": "lib/index",
   "scripts": {
-    "old-start": "./node_modules/.bin/ts-node ./src/boot.ts",
-    "start": "forever start ./lib/boot.js",
+    "start": "forever start -c \"ts-node --type-check -r tsconfig-paths/register\" ./src/boot.ts",
     "generate-api-key": "./node_modules/.bin/ts-node ./bin/generate_key.ts",
     "copy-api-types": "./node_modules/.bin/ts-node ./bin/copy_api_types.ts",
     "dev": "./node_modules/.bin/nodemon --exec ./node_modules/.bin/ts-node --no-cache --type-check -- ./src/boot.ts",
