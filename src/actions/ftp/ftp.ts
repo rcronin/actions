@@ -1,4 +1,4 @@
-import * as Hub from "../../hub"
+import * as Hub from "looker-action-hub/lib/hub"
 
 import * as Path from "path"
 import * as Client from "promise-ftp"
@@ -8,7 +8,7 @@ export class FTPAction extends Hub.Action {
 
   name = "ftp"
   label = "FTP"
-  iconName = "ftp/ftp.png"
+  iconName = "/ftp/ftp.png"
   description = "Send data files to an FTP server."
   supportedActionTypes = [Hub.ActionType.Query]
   params = []
@@ -16,18 +16,18 @@ export class FTPAction extends Hub.Action {
   async execute(request: Hub.ActionRequest) {
 
     if (!request.attachment || !request.attachment.dataBuffer) {
-      throw new Error("Couldn't get data from attachment.")
+      throw "Couldn't get data from attachment."
     }
 
     if (!request.formParams.address) {
-      throw new Error("Needs a valid FTP address.")
+      throw "Needs a valid FTP address."
     }
 
     const client = await this.ftpClientFromRequest(request)
     const parsedUrl = URL.parse(request.formParams.address)
 
     if (!parsedUrl.pathname) {
-      throw new Error("Needs a valid FTP address.")
+      throw "Needs a valid FTP address."
     }
 
     const data = request.attachment.dataBuffer
@@ -78,7 +78,7 @@ export class FTPAction extends Hub.Action {
     const parsedUrl = URL.parse(request.formParams.address!)
 
     if (!parsedUrl.hostname) {
-      throw new Error("Needs a valid FTP address.")
+      throw "Needs a valid FTP address."
     }
 
     try {
