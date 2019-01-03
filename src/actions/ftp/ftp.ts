@@ -8,7 +8,7 @@ export class FTPAction extends Hub.Action {
 
   name = "ftp"
   label = "FTP"
-  iconName = "/ftp/ftp.png"
+  iconName = "ftp/ftp.png"
   description = "Send data files to an FTP server."
   supportedActionTypes = [Hub.ActionType.Query]
   params = []
