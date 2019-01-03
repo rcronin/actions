@@ -1,4 +1,4 @@
-import * as Hub from "looker-action-hub/lib/hub"
+import * as Hub from "../../hub"
 
 import * as Path from "path"
 import * as Client from "promise-ftp"
