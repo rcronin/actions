@@ -148,6 +148,7 @@ export abstract class Action {
       return null
     }
     const iconPath = path.resolve(__dirname, "..", "actions", this.iconName)
+    console.log(iconPath)
     if (fs.existsSync(iconPath)) {
       return new datauri(iconPath).content
     }
