@@ -49,10 +49,6 @@ export class FTPAction extends Hub.Action {
     return new Hub.ActionResponse(response)
   }
 
-  async connect(request: Hub:ActionRequest) {
-
-  }
-
   async form() {
     const form = new Hub.ActionForm()
     form.fields = [{
