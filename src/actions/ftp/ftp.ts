@@ -10,6 +10,7 @@ export class FTPAction extends Hub.Action {
   label = "FTP"
   iconName = "ftp/ftp.png"
   description = "Send data files to an FTP server."
+  usesStreaming= true
   supportedActionTypes = [Hub.ActionType.Query]
   params = []
 
@@ -30,13 +31,15 @@ export class FTPAction extends Hub.Action {
       throw "Needs a valid FTP address."
     }
 
-    const data = request.attachment.dataBuffer
+    //const data = request.attachment.dataBuffer
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
     let response
     try {
-      await client.put(data, remotePath)
+      await request.stream(async (readable) => {
+        await client.put(readable, remotePath)
+      })
       response = { success: true }
     } catch (err) {
       response = { success: false, message: err.message }
