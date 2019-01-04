@@ -23,13 +23,14 @@ export class FTPAction extends Hub.Action {
     const parsedUrl = URL.parse(request.formParams.address)
 
     if (!parsedUrl.pathname) {
-      throw "Needs a valid FTP address."
+      throw "Needs a valid FTP file path."
     }
 
     //const data = request.attachment.dataBuffer
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
+    console.log("I made it.")
     let response
     try {
       let chunks = new Array()
