@@ -30,13 +30,10 @@ export class FTPAction extends Hub.Action {
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
-    console.log('I made it before streaming.')
     let response
     try {
       let chunks = new Array()
-      console.log('Right before streaming.')
       await request.stream(async (readable) => {
-        console.log('Streaming...')
         readable.on("data", (chunk) => {
           console.log(chunk)
           chunks.push(chunk)
@@ -46,7 +43,7 @@ export class FTPAction extends Hub.Action {
       
       console.log(data)
 
-      client.put(data, remotePath)
+      await client.put(data, remotePath)
 
       response = { success: true }
     } catch (err) {
