@@ -15,22 +15,15 @@ export class FTPAction extends Hub.Action {
   params = []
 
   async execute(request: Hub.ActionRequest) {
-    if (!request.formParams.address) {
-      throw "Needs a valid FTP address."
-    }
-
-    const client = await this.ftpClientFromRequest(request)
-    const parsedUrl = URL.parse(request.formParams.address)
+    const parsedUrl = URL.parse(request.formParams.address!)
 
     if (!parsedUrl.pathname) {
       throw "Needs a valid FTP file path."
     }
 
-    //const data = request.attachment.dataBuffer
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
-    console.log("I made it.")
     let response
     try {
       let chunks = new Array()
@@ -41,16 +34,23 @@ export class FTPAction extends Hub.Action {
       })
 
       let data = Buffer.concat(chunks)
+
+      const client = await this.ftpClientFromRequest(request)
+
       await client.put(data, remotePath)
+
+      await client.end()
 
       response = { success: true }
     } catch (err) {
       response = { success: false, message: err.message }
-    } finally {
-      await client.end()
-    }
+    } 
 
     return new Hub.ActionResponse(response)
+  }
+
+  async connect(request: Hub:ActionRequest) {
+
   }
 
   async form() {
