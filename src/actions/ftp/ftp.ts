@@ -37,7 +37,7 @@ export class FTPAction extends Hub.Action {
 
     let response
     try {
-      let chunks = [];
+      let chunks = new Array()
       await request.stream(async (readable) => {
         readable.on("data", (chunk) => {
           chunks.push(chunk)
@@ -46,7 +46,7 @@ export class FTPAction extends Hub.Action {
       let data = Buffer.concat(chunks)
 
       await client.put(data, remotePath)
-      
+
       response = { success: true }
     } catch (err) {
       response = { success: false, message: err.message }
