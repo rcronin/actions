@@ -15,11 +15,6 @@ export class FTPAction extends Hub.Action {
   params = []
 
   async execute(request: Hub.ActionRequest) {
-
-    if (!request.attachment || !request.attachment.dataBuffer) {
-      throw "Couldn't get data from attachment."
-    }
-
     if (!request.formParams.address) {
       throw "Needs a valid FTP address."
     }
