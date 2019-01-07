@@ -112,14 +112,14 @@ export default class Server implements Hub.RouteBuilder {
     })
 
     this.route("/actions/:actionId", async (req, res) => {
-      console.log(JSON.stringify(req))
+      console.log(JSON.stringify(req.params))
       const request = Hub.ActionRequest.fromRequest(req)
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })
       res.json(action.asJson(this, request))
     })
 
     this.route("/actions/:actionId/execute", this.jsonKeepAlive(async (req, complete) => {
-      console.log(JSON.stringify(req))
+      console.log(JSON.stringify(req.params))
       const request = Hub.ActionRequest.fromRequest(req)
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })
       const actionResponse = await action.validateAndExecute(request, expensiveJobQueue)
@@ -127,8 +127,7 @@ export default class Server implements Hub.RouteBuilder {
     }))
 
     this.route("/actions/:actionId/form", this.jsonKeepAlive(async (req, complete) => {
-      console.log(JSON.stringify(req))
-      const request = Hub.ActionRequest.fromRequest(req)
+      const request = Hub.ActionRequest.fromRequest(req.params)
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })
       if (action.hasForm) {
         const form = await action.validateAndFetchForm(request)
