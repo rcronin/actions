@@ -112,6 +112,7 @@ export default class Server implements Hub.RouteBuilder {
     })
 
     this.route("/actions/:actionId", async (req, res) => {
+      
       console.log(JSON.stringify(req.params))
       const request = Hub.ActionRequest.fromRequest(req)
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })
@@ -119,6 +120,7 @@ export default class Server implements Hub.RouteBuilder {
     })
 
     this.route("/actions/:actionId/execute", this.jsonKeepAlive(async (req, complete) => {
+
       console.log(JSON.stringify(req.params))
       const request = Hub.ActionRequest.fromRequest(req)
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })

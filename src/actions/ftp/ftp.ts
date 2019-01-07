@@ -23,6 +23,7 @@ export class FTPAction extends Hub.Action {
     }
 
     console.log("line 25")
+    console.log(JSON.stringify(request.formParams))
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
