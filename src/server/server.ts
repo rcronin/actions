@@ -127,7 +127,7 @@ export default class Server implements Hub.RouteBuilder {
     }))
 
     this.route("/actions/:actionId/form", this.jsonKeepAlive(async (req, complete) => {
-      const request = Hub.ActionRequest.fromRequest(req.params)
+      const request = Hub.ActionRequest.fromRequest(req)
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })
       if (action.hasForm) {
         const form = await action.validateAndFetchForm(request)
