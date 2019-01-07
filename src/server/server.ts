@@ -113,6 +113,7 @@ export default class Server implements Hub.RouteBuilder {
 
     this.route("/actions/:actionId", async (req, res) => {
       const request = Hub.ActionRequest.fromRequest(req)
+      console.log(JSON.stringify(req))
       const action = await Hub.findAction(req.params.actionId, { lookerVersion: request.lookerVersion })
       res.json(action.asJson(this, request))
     })
