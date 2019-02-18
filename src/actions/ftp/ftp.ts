@@ -11,7 +11,6 @@ export class FTPAction extends Hub.Action {
   label = "FTP"
   iconName = "ftp/ftp.png"
   description = "Send data files to an FTP server."
-  usesStreaming = true
   supportedActionTypes = [Hub.ActionType.Query]
   params = []
 
@@ -22,6 +21,10 @@ export class FTPAction extends Hub.Action {
       throw new Error("Needs a valid FTP file path.")
     }
 
+    if (!request.attachment || !request.attachment.dataBuffer) {
+      throw new Error("Couldn't get attachment from data.")
+    }
+
     console.log(JSON.stringify(request))
     console.log(request.attachment)
     const fileName = `${request.formParams.filename || uuid() as string}${request.attachment ? '.' + request.attachment.fileExtension :  ''}`
@@ -29,14 +32,15 @@ export class FTPAction extends Hub.Action {
 
     let response
     try {
-      let chunks = new Array()
-      await request.stream(async (readable) => {
-        readable.on("data", (chunk) => {
-          chunks.push(chunk)
-        })
-      })
+      //let chunks = new Array()
+      //await request.stream(async (readable) => {
+      //  readable.on("data", (chunk) => {
+      //    chunks.push(chunk)
+      //  })
+      //})
 
-      let data = Buffer.concat(chunks)
+      //let data = Buffer.concat(chunks)
+      let data = request.attachment.dataBuffer;
 
       const client = await this.ftpClientFromRequest(request)
 
