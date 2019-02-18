@@ -18,7 +18,7 @@ export class FTPAction extends Hub.Action {
     const parsedUrl = URL.parse(request.formParams.address!)
 
     if (!parsedUrl.pathname) {
-      throw "Needs a valid FTP file path."
+      throw new Error("Needs a valid FTP file path.")
     }
 
     console.log(request.formParams)
@@ -47,7 +47,7 @@ export class FTPAction extends Hub.Action {
 
       response = { success: true }
     } catch (err) {
-      response = { success: false, message: err.message }
+      throw err
     } 
 
     return new Hub.ActionResponse(response)
@@ -84,7 +84,7 @@ export class FTPAction extends Hub.Action {
     const parsedUrl = URL.parse(request.formParams.address!)
 
     if (!parsedUrl.hostname) {
-      throw "Needs a valid FTP address."
+      throw new Error("Needs a valid FTP address.")
     }
 
     try {
