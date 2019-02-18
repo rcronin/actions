@@ -17,5 +17,4 @@ export interface ActionFormField {
   type?: "string" | "textarea" | "select"
   options?: { name: string, label: string }[]
   required?: boolean
-  sensitive?: boolean
 }
