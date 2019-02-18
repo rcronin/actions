@@ -21,7 +21,9 @@ export class FTPAction extends Hub.Action {
       throw "Needs a valid FTP file path."
     }
 
-    console.log("line 25")
+    console.log(request.formParams)
+    console.log(request)
+    console.log(request.suggestedFilename())
     console.log(JSON.stringify(request.formParams))
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
