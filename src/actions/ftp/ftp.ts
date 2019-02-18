@@ -15,7 +15,6 @@ export class FTPAction extends Hub.Action {
   params = []
 
   async execute(request: Hub.ActionRequest) {
-    console.log("line 18")
     const parsedUrl = URL.parse(request.formParams.address!)
 
     if (!parsedUrl.pathname) {
@@ -27,10 +26,8 @@ export class FTPAction extends Hub.Action {
     const fileName = request.formParams.filename || request.suggestedFilename() as string
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
-    console.log("line 29")
     let response
     try {
-      console.log("line 32")
       let chunks = new Array()
       await request.stream(async (readable) => {
         readable.on("data", (chunk) => {
@@ -38,13 +35,9 @@ export class FTPAction extends Hub.Action {
         })
       })
 
-      console.log("line 40")
-
       let data = Buffer.concat(chunks)
 
       const client = await this.ftpClientFromRequest(request)
-
-      console.log("line 46")
 
       await client.put(data, remotePath)
 
