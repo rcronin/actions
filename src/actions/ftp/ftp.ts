@@ -69,6 +69,7 @@ export class FTPAction extends Hub.Action {
       label: "Password",
       type: "string",
       required: true,
+      sensitive: true,      
     }, {
       label: "Filename",
       name: "filename",
