@@ -3,6 +3,7 @@ import * as Hub from "../../hub"
 import * as Path from "path"
 import * as Client from "promise-ftp"
 import * as URL from "url"
+import * as uuid from "uuid/v1"
 
 export class FTPAction extends Hub.Action {
 
@@ -22,10 +23,7 @@ export class FTPAction extends Hub.Action {
     }
 
     console.log(request.formParams)
-    console.log(request)
-    console.log(request.suggestedFilename())
-    console.log(JSON.stringify(request.formParams))
-    const fileName = request.formParams.filename || request.suggestedFilename() as string
+    const fileName = `${request.formParams.filename || uuid() as string}${request.attachment ? '.' + request.attachment.fileExtension :  ''}`
     const remotePath = Path.join(parsedUrl.pathname, fileName)
 
     let response
